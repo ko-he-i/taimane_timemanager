@@ -30,7 +30,7 @@ class TimerAddPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new timer'),
+        title: const Text('タイマーを追加する'),
       ),
       body: Center(
         child: Column(
@@ -40,7 +40,7 @@ class TimerAddPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
               child: TextField(
                 decoration: const InputDecoration(
-                  labelText: 'New timer name',
+                  labelText: '新しいタイマーの名前',
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (text) {
@@ -60,7 +60,7 @@ class TimerAddPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text('Add'),
+                child: const Text('追加'),
               ),
             ),
           ],

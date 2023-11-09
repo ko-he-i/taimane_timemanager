@@ -18,24 +18,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false, //←コレ
-      title: 'タイマネ/Time Manager',
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // スプラッシュ画面などに書き換えても良い
-            return const SizedBox();
-          }
-          if (snapshot.hasData) {
-            // User が null でなない、つまりサインイン済みのホーム画面へ
-            return const TimerListPage();
-          }
-          // User が null である、つまり未サインインのサインイン画面へ
-          return const LoginPage();
-        },
-      ),
-    );
+    return const MaterialApp(
+        debugShowCheckedModeBanner: false, //←コレ
+        title: 'タイマネ/Time Manager',
+        home: LoginPage());
   }
 }

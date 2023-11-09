@@ -32,10 +32,17 @@ class _TimerPageState extends State<TimerPage> {
   late DateTime startTime;
   late DateTime endTime;
   late Duration elapsedTime;
+  late Timer timer;
+  int hours = 0;
+  int minutes = 0;
+  int seconds = 0;
 
   @override
   void initState() {
     super.initState();
+
+    startTime = DateTime.now();
+    elapsedTime = Duration.zero;
 
     _docIdState = widget.docId;
   }
@@ -47,13 +54,16 @@ class _TimerPageState extends State<TimerPage> {
     if (snapshot.exists) {
       dynamic nowTotalTime = snapshot.get('total');
 
-      nowTotalHour = int.parse(nowTotalTime[0] + nowTotalTime[1]);
-      nowTotalMinutes = int.parse(nowTotalTime[2] + nowTotalTime[3]);
-      nowTotalSeconds = int.parse(nowTotalTime[4] + nowTotalTime[5]);
+      // nowTotalHour = int.parse(nowTotalTime[0] + nowTotalTime[1]);
+      // nowTotalMinutes = int.parse(nowTotalTime[2] + nowTotalTime[3]);
+      // nowTotalSeconds = int.parse(nowTotalTime[4] + nowTotalTime[5]);
+      nowTotalHour = hours;
+      nowTotalMinutes = minutes;
+      nowTotalSeconds = seconds;
     }
-    newTotalSeconds = nowTotalSeconds + _seconds;
-    newTotalMinutes = nowTotalMinutes + _minutes;
-    newTotalHour = nowTotalHour + _hour;
+    // newTotalSeconds = nowTotalSeconds + _seconds;
+    // newTotalMinutes = nowTotalMinutes + _minutes;
+    // newTotalHour = nowTotalHour + _hour;
 
     if (newTotalSeconds >= 60) {
       newTotalMinutes++;
@@ -92,18 +102,19 @@ class _TimerPageState extends State<TimerPage> {
         const Duration(seconds: 1),
         (Timer timer) {
           setState(() {
-            _seconds++;
-            _secondsString = _seconds.toString();
-            if (_seconds >= 60) {
-              _minutes++;
-              _seconds = 0;
-              _minutesString = _minutes.toString();
-            }
-            if (_minutes >= 60) {
-              _hour++;
-              _minutes = 0;
-              _hourString = _hour.toString();
-            }
+            elapsedTime = DateTime.now().difference(startTime);
+            // _seconds++;
+            // _secondsString = _seconds.toString();
+            // if (_seconds >= 60) {
+            //   _minutes++;
+            //   _seconds = 0;
+            //   _minutesString = _minutes.toString();
+            // }
+            // if (_minutes >= 60) {
+            //   _hour++;
+            //   _minutes = 0;
+            //   _hourString = _hour.toString();
+            // }
           });
         },
       );
@@ -113,6 +124,19 @@ class _TimerPageState extends State<TimerPage> {
     });
   }
 
+  String formatElapsedTime(Duration duration) {
+    int s_hours = duration.inHours;
+    int s_minutes = duration.inMinutes.remainder(60);
+    int s_seconds = duration.inSeconds.remainder(60);
+
+    hours = s_hours;
+    minutes = s_minutes;
+    seconds = s_seconds;
+
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    return '$s_hours:${twoDigits(s_minutes)}:${twoDigits(s_seconds)}';
+  }
+
   void reset() {
     _timer?.cancel();
     setState(() {
@@ -120,6 +144,10 @@ class _TimerPageState extends State<TimerPage> {
       _minutes = 0;
       _hour = 0;
       _isRunning = false;
+
+      elapsedTime = Duration.zero;
+      startTime = DateTime.now();
+      endTime = DateTime.now();
     });
   }
 
@@ -131,8 +159,6 @@ class _TimerPageState extends State<TimerPage> {
     endTime = DateTime.now();
     // elapsedTimeに時刻の差を加算する
     elapsedTime += endTime.difference(startTime);
-    // タイマーが必要なら再開する
-    // resumeTimer();
   }
 
   @override
@@ -146,7 +172,8 @@ class _TimerPageState extends State<TimerPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${_hour.toString().padLeft(2, '0')}:${_minutes.toString().padLeft(2, '0')}:${_seconds.toString().padLeft(2, '0')}',
+              // '${_hour.toString().padLeft(2, '0')}:${_minutes.toString().padLeft(2, '0')}:${_seconds.toString().padLeft(2, '0')}',
+              formatElapsedTime(elapsedTime),
               style: const TextStyle(
                 fontSize: 40,
               ),
@@ -160,7 +187,7 @@ class _TimerPageState extends State<TimerPage> {
                   child: ElevatedButton(
                     onPressed: toggleTimer,
                     child: Text(
-                      _isRunning ? 'Stop' : 'Start',
+                      _isRunning ? 'ストップ' : 'スタート',
                       style: const TextStyle(
                         fontSize: 20,
                       ),
@@ -173,7 +200,7 @@ class _TimerPageState extends State<TimerPage> {
                   child: ElevatedButton(
                     onPressed: reset,
                     child: const Text(
-                      'Reset',
+                      'リセット',
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -191,7 +218,7 @@ class _TimerPageState extends State<TimerPage> {
                   child: ElevatedButton(
                     onPressed: record,
                     child: const Text(
-                      'Record',
+                      '記録する',
                       style: TextStyle(
                         fontSize: 20,
                       ),

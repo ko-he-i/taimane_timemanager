@@ -32,7 +32,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Approve'),
+              child: const Text('はい'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -86,7 +86,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('RegistrationPage'),
+        title: const Text('新規登録'),
       ),
       body: Center(
         child: Column(
@@ -141,7 +141,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text('Registration'),
+                child: const Text('新規登録'),
               ),
             ),
           ],
