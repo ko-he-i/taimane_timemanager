@@ -29,6 +29,9 @@ class _TimerPageState extends State<TimerPage> {
   int newTotalSeconds = 0;
   int newTotalMinutes = 0;
   int newTotalHour = 0;
+  late DateTime startTime;
+  late DateTime endTime;
+  late Duration elapsedTime;
 
   @override
   void initState() {
@@ -124,6 +127,12 @@ class _TimerPageState extends State<TimerPage> {
   void dispose() {
     super.dispose();
     _timer?.cancel();
+    // アプリがフォアグラウンドに戻ってきたときに、endTimeを更新する
+    endTime = DateTime.now();
+    // elapsedTimeに時刻の差を加算する
+    elapsedTime += endTime.difference(startTime);
+    // タイマーが必要なら再開する
+    // resumeTimer();
   }
 
   @override
