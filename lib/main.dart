@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false, //←コレ
+        debugShowCheckedModeBanner: false,
         title: 'タイマネ/Time Manager',
         home: LoginPage());
   }

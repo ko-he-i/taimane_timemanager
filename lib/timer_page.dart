@@ -40,11 +40,10 @@ class _TimerPageState extends State<TimerPage> {
   @override
   void initState() {
     super.initState();
+    _docIdState = widget.docId;
 
     startTime = DateTime.now();
     elapsedTime = Duration.zero;
-
-    _docIdState = widget.docId;
   }
 
   void record() async {
