@@ -78,12 +78,15 @@ class _LoginPageState extends State<LoginPage> {
         email: emailAddress,
         password: password,
       );
+      _toTimerListPage();
     } on FirebaseAuthException catch (e) {
+      String message = 'ログインに失敗しました';
       if (e.code == 'user-not-found') {
-        _showDialog('ユーザーが見つかりませんでした', 'メールアドレスを正しく入力してください');
+        message = 'ユーザーが見つかりませんでした。';
       } else if (e.code == 'wrong-password') {
-        _showDialog('パスワードが間違っています', 'パスワードを正しく入力してください');
+        message = 'パスワードが間違っています。';
       }
+      _showDialog('ログインに失敗しました', message);
     }
   }
 
@@ -142,7 +145,6 @@ class _LoginPageState extends State<LoginPage> {
               child: ElevatedButton(
                 onPressed: () {
                   _login(loginEmailAddress, loginEmailPassword);
-                  _toTimerListPage();
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
