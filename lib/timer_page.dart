@@ -87,20 +87,6 @@ class _TimerPageState extends State<TimerPage> {
       print("Error completing: $e");
     }
 
-    // DocumentReference documentRef =
-    //     FirebaseFirestore.instance.collection('users').doc(_docIdState);
-    // DocumentSnapshot snapshot = await documentRef.get();
-    // if (snapshot.exists) {
-    //   String nowTotalTime = snapshot.get('total');
-    //   print(nowTotalTime);
-
-    //   //今までの合計時間を取得
-    //   nowTotalHour = int.parse(nowTotalTime[0] + nowTotalTime[1]);
-    //   nowTotalMinutes = int.parse(nowTotalTime[2] + nowTotalTime[3]);
-    //   nowTotalSeconds = int.parse(nowTotalTime[4] + nowTotalTime[5]);
-    //   print('syutoku');
-    // }
-
     //今までの合計時間と今計測した時間を足す
     newTotalSeconds = nowTotalSeconds + _seconds;
     newTotalMinutes = nowTotalMinutes + _minutes;
@@ -146,18 +132,6 @@ class _TimerPageState extends State<TimerPage> {
         (Timer timer) {
           setState(() {
             elapsedTime = DateTime.now().difference(startTime);
-            // _seconds++;
-            // _secondsString = _seconds.toString();
-            // if (_seconds >= 60) {
-            //   _minutes++;
-            //   _seconds = 0;
-            //   _minutesString = _minutes.toString();
-            // }
-            // if (_minutes >= 60) {
-            //   _hour++;
-            //   _minutes = 0;
-            //   _hourString = _hour.toString();
-            // }
           });
         },
       );
@@ -215,7 +189,6 @@ class _TimerPageState extends State<TimerPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              // '${_hour.toString().padLeft(2, '0')}:${_minutes.toString().padLeft(2, '0')}:${_seconds.toString().padLeft(2, '0')}',
               formatElapsedTime(elapsedTime),
               style: const TextStyle(
                 fontSize: 40,
