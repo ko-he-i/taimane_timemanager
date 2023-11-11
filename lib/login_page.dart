@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 //lib
 import 'package:taimane_timemanager/registration_page.dart';
+import 'package:taimane_timemanager/timer.dart';
 //firebase
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:taimane_timemanager/timer_list_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +17,23 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String loginEmailAddress = '';
   String loginEmailPassword = '';
+  List timer = [];
+
+  void _fetchFirebaseData() async {
+    final auth = FirebaseAuth.instance;
+    final uid = auth.currentUser?.uid.toString();
+
+    final db = FirebaseFirestore.instance;
+
+    final event =
+        await db.collection("users").doc(uid).collection('user_timers').get();
+    final docs = event.docs;
+    final timer = docs.map((doc) => Timer.fromFirestore(doc)).toList();
+
+    setState(() {
+      this.timer = timer;
+    });
+  }
 
   Future<void> _showDialog(String message1, String message2) async {
     return showDialog<void>(

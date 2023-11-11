@@ -21,7 +21,7 @@ class _TimerPageState extends State<TimerPage> {
   String _hourString = '00';
   Timer? _timer;
   bool _isRunning = false;
-  late String _docIdState;
+  String _docIdState = '';
   String _time = '';
   int nowTotalSeconds = 0;
   int nowTotalMinutes = 0;
@@ -47,22 +47,68 @@ class _TimerPageState extends State<TimerPage> {
   }
 
   void record() async {
-    DocumentReference documentRef =
-        FirebaseFirestore.instance.collection('users').doc(_docIdState);
-    DocumentSnapshot snapshot = await documentRef.get();
-    if (snapshot.exists) {
-      dynamic nowTotalTime = snapshot.get('total');
+    final auth = FirebaseAuth.instance;
+    final uid = auth.currentUser?.uid.toString();
 
-      // nowTotalHour = int.parse(nowTotalTime[0] + nowTotalTime[1]);
-      // nowTotalMinutes = int.parse(nowTotalTime[2] + nowTotalTime[3]);
-      // nowTotalSeconds = int.parse(nowTotalTime[4] + nowTotalTime[5]);
-      nowTotalHour = hours;
-      nowTotalMinutes = minutes;
-      nowTotalSeconds = seconds;
+    final db = FirebaseFirestore.instance;
+    final collectionReference =
+        db.collection("users").doc(uid).collection('user_timers');
+
+    try {
+      QuerySnapshot querySnapshot = await collectionReference.get();
+
+      print("Successfully completed");
+
+      for (var docSnapshot in querySnapshot.docs) {
+        // データをMap<String, dynamic>?型に変換
+        Map<String, dynamic>? data =
+            docSnapshot.data() as Map<String, dynamic>?;
+
+        if (data != null) {
+          // fieldToRetrieveに取り出したいフィールドの名前を指定
+          var nowTotalTime = data['total'];
+
+          //今までの合計時間を取得
+          nowTotalHour = int.parse(nowTotalTime[0] + nowTotalTime[1]);
+          nowTotalMinutes = int.parse(nowTotalTime[2] + nowTotalTime[3]);
+          nowTotalSeconds = int.parse(nowTotalTime[4] + nowTotalTime[5]);
+
+          if (nowTotalTime != null) {
+            print(
+                'Specific Field Value: $nowTotalTime,$nowTotalHour,$nowTotalMinutes,$nowTotalSeconds');
+          } else {
+            print('Field not found or is null');
+          }
+        } else {
+          print('Document data is null');
+        }
+      }
+    } catch (e) {
+      print("Error completing: $e");
     }
-    // newTotalSeconds = nowTotalSeconds + _seconds;
-    // newTotalMinutes = nowTotalMinutes + _minutes;
-    // newTotalHour = nowTotalHour + _hour;
+
+    // DocumentReference documentRef =
+    //     FirebaseFirestore.instance.collection('users').doc(_docIdState);
+    // DocumentSnapshot snapshot = await documentRef.get();
+    // if (snapshot.exists) {
+    //   String nowTotalTime = snapshot.get('total');
+    //   print(nowTotalTime);
+
+    //   //今までの合計時間を取得
+    //   nowTotalHour = int.parse(nowTotalTime[0] + nowTotalTime[1]);
+    //   nowTotalMinutes = int.parse(nowTotalTime[2] + nowTotalTime[3]);
+    //   nowTotalSeconds = int.parse(nowTotalTime[4] + nowTotalTime[5]);
+    //   print('syutoku');
+    // }
+
+    //今までの合計時間と今計測した時間を足す
+    newTotalSeconds = nowTotalSeconds + _seconds;
+    newTotalMinutes = nowTotalMinutes + _minutes;
+    newTotalHour = nowTotalHour + _hour;
+
+    newTotalSeconds = nowTotalSeconds + seconds;
+    newTotalMinutes = nowTotalMinutes + minutes;
+    newTotalHour = nowTotalHour + hours;
 
     if (newTotalSeconds >= 60) {
       newTotalMinutes++;
@@ -83,8 +129,6 @@ class _TimerPageState extends State<TimerPage> {
 
     _time = _hourString + _minutesString + _secondsString;
 
-    final auth = FirebaseAuth.instance;
-    final uid = auth.currentUser?.uid.toString();
     FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
