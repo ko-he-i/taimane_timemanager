@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taimane_timemanager/login_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:settings_ui/settings_ui.dart';
 
 class OtherPage extends StatefulWidget {
   const OtherPage({super.key});
@@ -59,7 +60,7 @@ class _OtherPageState extends State<OtherPage> {
   final contactUrl =
       Uri.parse('https://sites.google.com/view/timemanagerapp/contact');
   final privacyPolicyUrl =
-      Uri.parse('https://sites.google.com/view/timemanagerapp/contact');
+      Uri.parse('https://sites.google.com/view/timemanagerapp/privacy-policy');
 
   void openContactUrl() async {
     if (await canLaunchUrl(contactUrl)) {
@@ -83,34 +84,40 @@ class _OtherPageState extends State<OtherPage> {
       appBar: AppBar(
         title: const Text('設定画面'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                openContactUrl();
-              },
-              child: const Text('お問い合わせ'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                openPrivacyPolicyUrl();
-              },
-              child: const Text('プライバシー・ポリシー'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_user != null) {
-                  _showDeleteAccountDialog();
-                } else {
-                  print("ユーザーはログインしていません");
-                }
-              },
-              child: const Text('アカウント削除'),
-            ),
-          ],
-        ),
+      body: SettingsList(
+        platform: DevicePlatform.device,
+        sections: [
+          SettingsSection(
+            title: const Text('サポート'),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                title: const Text('お問い合わせ'),
+                leading: const Icon(Icons.mail),
+                onPressed: (context) {
+                  openContactUrl();
+                },
+              ),
+              SettingsTile.navigation(
+                title: const Text('プライバシー・ポリシー'),
+                leading: const Icon(Icons.privacy_tip_outlined),
+                onPressed: (context) {
+                  openPrivacyPolicyUrl();
+                },
+              ),
+              SettingsTile.navigation(
+                title: const Text('アカウント削除'),
+                leading: const Icon(Icons.account_box),
+                onPressed: (context) {
+                  if (_user != null) {
+                    _showDeleteAccountDialog();
+                  } else {
+                    print("ユーザーはログインしていません");
+                  }
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
