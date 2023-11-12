@@ -26,19 +26,22 @@ class _TimerListPageState extends State<TimerListPage> {
   }
 
   void _fetchFirebaseData() async {
-    final auth = FirebaseAuth.instance;
-    final uid = auth.currentUser?.uid.toString();
+    try {
+      final auth = FirebaseAuth.instance;
+      final uid = auth.currentUser?.uid.toString();
 
-    final db = FirebaseFirestore.instance;
+      final db = FirebaseFirestore.instance;
+      final event =
+          await db.collection("users").doc(uid).collection('user_timers').get();
+      final docs = event.docs;
+      final timer = docs.map((doc) => Timer.fromFirestore(doc)).toList();
 
-    final event =
-        await db.collection("users").doc(uid).collection('user_timers').get();
-    final docs = event.docs;
-    final timer = docs.map((doc) => Timer.fromFirestore(doc)).toList();
-
-    setState(() {
-      this.timer = timer;
-    });
+      setState(() {
+        this.timer = timer;
+      });
+    } catch (e) {
+      print('データの取得に失敗しました: $e');
+    }
   }
 
   String formatTimeString(String input) {
