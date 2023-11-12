@@ -57,8 +57,6 @@ class _TimerPageState extends State<TimerPage> {
     try {
       QuerySnapshot querySnapshot = await collectionReference.get();
 
-      print("Successfully completed");
-
       for (var docSnapshot in querySnapshot.docs) {
         // データをMap<String, dynamic>?型に変換
         Map<String, dynamic>? data =
