@@ -32,7 +32,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('はい'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -73,13 +73,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   void addToFirebaseUser() async {
     final auth = FirebaseAuth.instance;
-    final uid = auth.currentUser?.uid.toString();
+    final user = auth.currentUser;
 
-    final db = FirebaseFirestore.instance;
-    final users = <String, dynamic>{
-      "email": _newUserEmail,
-    };
-    await db.collection("users").doc(uid).set(users);
+    if (user != null) {
+      final uid = user.uid;
+
+      final db = FirebaseFirestore.instance;
+      final users = <String, dynamic>{
+        "email": _newUserEmail,
+      };
+      await db.collection("users").doc(uid).set(users);
+    }
   }
 
   @override
@@ -133,7 +137,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             SizedBox(
               width: 150,
               child: ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   _createAccount(_newUserEmail, _newUserPass);
                 },
                 style: ElevatedButton.styleFrom(
