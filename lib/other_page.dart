@@ -23,10 +23,10 @@ class _OtherPageState extends State<OtherPage> {
   Future<void> _deleteAccount() async {
     try {
       await _user?.delete();
-      await _auth.signOut(); // サインアウト
+      await _auth.signOut();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const LoginPage(), // ログインページに遷移
+          builder: (context) => const LoginPage(),
         ),
       );
     } catch (e) {
