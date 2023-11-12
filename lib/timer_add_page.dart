@@ -4,30 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class TimerAddPage extends StatelessWidget {
+class TimerAddPage extends StatefulWidget {
   const TimerAddPage({super.key});
 
   @override
+  State<TimerAddPage> createState() => _TimerAddPageState();
+}
+
+class _TimerAddPageState extends State<TimerAddPage> {
+  String timerName = '';
+
+  Future<void> addToFirebase() async {
+    final auth = FirebaseAuth.instance;
+    final uid = auth.currentUser?.uid.toString();
+
+    final timerData = <String, dynamic>{
+      "timerName": timerName,
+      "total": '000000',
+      "id": uid,
+    };
+
+    final timerRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('user_timers');
+    await timerRef.add(timerData);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String timerName = '';
-
-    Future addToFirebase() async {
-      final auth = FirebaseAuth.instance;
-      final uid = auth.currentUser?.uid.toString();
-
-      final timerData = <String, dynamic>{
-        "timerName": timerName,
-        "total": '000000',
-        "id": uid,
-      };
-
-      final timerRef = FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('user_timers');
-      await timerRef.add(timerData);
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('タイマーを追加する'),
