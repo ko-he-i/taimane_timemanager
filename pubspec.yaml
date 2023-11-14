@@ -19,6 +19,7 @@ dependencies:
   url_launcher: ^6.1.14
   flutter_launcher_icons: ^0.13.1
   app_tracking_transparency: ^2.0.4
+  settings_ui: ^2.0.2
 
 dev_dependencies:
   flutter_test:

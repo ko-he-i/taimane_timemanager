@@ -92,7 +92,7 @@ class _OtherPageState extends State<OtherPage> {
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 title: const Text('お問い合わせ'),
-                leading: const Icon(Icons.mail),
+                leading: const Icon(Icons.mail_outline),
                 onPressed: (context) {
                   openContactUrl();
                 },
