@@ -88,7 +88,7 @@ class _OtherPageState extends State<OtherPage> {
         platform: DevicePlatform.device,
         sections: [
           SettingsSection(
-            title: const Text('サポート'),
+            title: const Text('その他'),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 title: const Text('お問い合わせ'),
