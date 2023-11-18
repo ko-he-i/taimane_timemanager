@@ -9,7 +9,8 @@ import 'package:taimane_timemanager/timer_add_page.dart';
 import 'package:taimane_timemanager/other_page.dart';
 
 //TODO
-//パフォーマンス改善（const,リビルド範囲縮小）
+//パフォーマンス改善
+//constの確認、リビルド範囲を小さくできるか
 
 class TimerListPage extends StatefulWidget {
   const TimerListPage({super.key});
