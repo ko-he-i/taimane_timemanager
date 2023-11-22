@@ -92,6 +92,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    //MediaQueryで使用デバイスのサイズを取得
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('ログインページ'),
@@ -100,48 +102,62 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'タイマネ/Time Manager',
-              style: TextStyle(
-                fontSize: 32,
+            SizedBox(
+              width: size.width * 0.9,
+              height: size.height * 0.1,
+              child: const Text(
+                'タイマネ/Time Manager',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 32,
+                ),
               ),
             ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 20,
-              ),
-              child: TextField(
-                decoration: const InputDecoration(
-                  labelText: 'メールアドレス',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: size.width * 0.95,
+              height: size.height * 0.1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 20,
                 ),
-                onChanged: (String value) {
-                  loginEmailAddress = value;
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 20,
-              ),
-              child: TextField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'パスワード',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.key),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'メールアドレス',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  onChanged: (String value) {
+                    loginEmailAddress = value;
+                  },
                 ),
-                onChanged: (String value) {
-                  loginEmailPassword = value;
-                },
               ),
             ),
             SizedBox(
-              width: 150,
+              width: size.width * 0.95,
+              height: size.height * 0.1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 20,
+                ),
+                child: TextField(
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'パスワード',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.key),
+                  ),
+                  onChanged: (String value) {
+                    loginEmailPassword = value;
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              width: size.width * 0.3,
+              height: size.height * 0.05,
               child: ElevatedButton(
                 onPressed: () {
                   _login(loginEmailAddress, loginEmailPassword);
@@ -154,16 +170,20 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text('ログイン'),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegistrationPage(),
-                  ),
-                );
-              },
-              child: const Text('新規登録'),
+            SizedBox(
+              width: size.width * 0.3,
+              height: size.height * 0.05,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegistrationPage(),
+                    ),
+                  );
+                },
+                child: const Text('新規登録'),
+              ),
             ),
           ],
         ),
