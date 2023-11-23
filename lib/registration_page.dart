@@ -88,6 +88,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('新規登録'),
@@ -96,46 +97,62 @@ class _RegistrationPageState extends State<RegistrationPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'タイマネ/Time Manager',
-              style: TextStyle(
-                fontSize: 32,
+            SizedBox(
+              width: size.width * 0.9,
+              height: size.height * 0.1,
+              child: const Text(
+                'タイマネ/Time Manager',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 32,
+                ),
               ),
             ),
-            const SizedBox(height: 40),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-              child: TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Email Address',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: size.width * 0.95,
+              height: size.height * 0.1,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Email Address',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  onChanged: (String value) {
+                    setState(() {
+                      _newUserEmail = value;
+                    });
+                  },
                 ),
-                onChanged: (String value) {
-                  setState(() {
-                    _newUserEmail = value;
-                  });
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-              child: TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock),
-                ),
-                obscureText: true,
-                onChanged: (String value) {
-                  setState(() {
-                    _newUserPass = value;
-                  });
-                },
               ),
             ),
             SizedBox(
-              width: 150,
+              width: size.width * 0.95,
+              height: size.height * 0.1,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.lock),
+                  ),
+                  obscureText: true,
+                  onChanged: (String value) {
+                    setState(() {
+                      _newUserPass = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              width: size.width * 0.3,
+              height: size.height * 0.05,
               child: ElevatedButton(
                 onPressed: () {
                   _createAccount(_newUserEmail, _newUserPass);
