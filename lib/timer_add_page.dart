@@ -33,6 +33,7 @@ class _TimerAddPageState extends State<TimerAddPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('タイマーを追加する'),
@@ -40,21 +41,28 @@ class _TimerAddPageState extends State<TimerAddPage> {
       body: Center(
         child: Column(
           children: [
-            const SizedBox(height: 40),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-              child: TextField(
-                decoration: const InputDecoration(
-                  labelText: '新しいタイマーの名前',
-                  border: OutlineInputBorder(),
+            SizedBox(height: size.height * 0.04),
+            SizedBox(
+              width: size.width * 0.95,
+              height: size.height * 0.1,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    labelText: '新しいタイマーの名前',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (text) {
+                    timerName = text;
+                  },
                 ),
-                onChanged: (text) {
-                  timerName = text;
-                },
               ),
             ),
+            SizedBox(height: size.height * 0.02),
             SizedBox(
-              width: 100,
+              width: size.width * 0.3,
+              height: size.height * 0.05,
               child: ElevatedButton(
                 onPressed: () async {
                   await addToFirebase();

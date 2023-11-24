@@ -108,7 +108,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: size.height * 0.02),
             SizedBox(
               width: size.width * 0.95,
               height: size.height * 0.1,
