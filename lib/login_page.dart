@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: size.height * 0.01),
             SizedBox(
               width: size.width * 0.95,
               height: size.height * 0.1,
