@@ -230,7 +230,9 @@ class _TimerPageState extends State<TimerPage> {
                 SizedBox(
                   width: 125,
                   child: ElevatedButton(
-                    onPressed: record,
+                    onPressed: () {
+                      record();
+                    },
                     child: const Text(
                       '記録する',
                       style: TextStyle(

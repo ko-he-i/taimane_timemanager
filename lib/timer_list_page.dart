@@ -74,66 +74,74 @@ class _TimerListPageState extends State<TimerListPage> {
           ),
         ],
       ),
-      body: ListView(
-        children: timer
-            .map((timer) => Card(
-                  shape: const RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Colors.blue,
-                    ),
+      body: ListView.builder(
+        itemCount: timer.length,
+        itemBuilder: (context, index) {
+          final timerItem = timer[index];
+          return Card(
+            shape: const RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.blue,
+              ),
+            ),
+            child: ListTile(
+              title: Text(timerItem.timerName),
+              trailing: Text(
+                '合計：${timerItem.total[0] + timerItem.total[1]}時間${timerItem.total[2] + timerItem.total[3]}分',
+              ),
+              onTap: () async {
+                docId = timerItem.id;
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TimerPage(docId: docId),
                   ),
-                  child: ListTile(
-                    title: Text(timer.timerName),
-                    trailing: Text(
-                        '合計：${timer.total[0] + timer.total[1]}時間${timer.total[2] + timer.total[3]}分'),
-                    onTap: () async {
-                      docId = timer.id;
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => TimerPage(docId: docId)),
-                      );
-                      _fetchFirebaseData();
-                    },
-                    onLongPress: () {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('削除しますか？'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  final auth = FirebaseAuth.instance;
-                                  final uid = auth.currentUser?.uid.toString();
-                                  final db = FirebaseFirestore.instance;
-                                  await db
-                                      .collection('users')
-                                      .doc(uid)
-                                      .collection('user_timers')
-                                      .doc(timer.id)
-                                      .delete();
-                                  _fetchFirebaseData();
-                                  if (!mounted) return;
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ))
-            .toList(),
+                );
+                _fetchFirebaseData();
+              },
+              onLongPress: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text('削除しますか？'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            final auth = FirebaseAuth.instance;
+                            final uid = auth.currentUser?.uid.toString();
+                            final db = FirebaseFirestore.instance;
+                            await db
+                                .collection('users')
+                                .doc(uid)
+                                .collection('user_timers')
+                                .doc(timerItem.id)
+                                .delete();
+
+                            setState(() {
+                              timer.remove(timerItem); // 該当の要素を削除
+                            });
+
+                            if (!mounted) return;
+                            Navigator.pop(context);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
