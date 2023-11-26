@@ -1,98 +1,64 @@
 import 'package:flutter/material.dart';
-//lib
 import 'package:taimane_timemanager/registration_page.dart';
-import 'package:taimane_timemanager/timer.dart';
-//firebase
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:taimane_timemanager/timer_list_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  String loginEmailAddress = '';
-  String loginEmailPassword = '';
-  List timer = [];
-
-  void _fetchFirebaseData() async {
-    final auth = FirebaseAuth.instance;
-    final uid = auth.currentUser?.uid.toString();
-
-    final db = FirebaseFirestore.instance;
-
-    final event =
-        await db.collection("users").doc(uid).collection('user_timers').get();
-    final docs = event.docs;
-    final timer = docs.map((doc) => Timer.fromFirestore(doc)).toList();
-
-    setState(() {
-      this.timer = timer;
-    });
-  }
-
-  Future<void> _showDialog(String message1, String message2) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('ログインに失敗しました'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(message1),
-                Text(message2),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _toTimerListPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const TimerListPage(),
-      ),
-    );
-  }
-
-  void _login(String emailAddress, String password) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailAddress,
-        password: password,
-      );
-      _toTimerListPage();
-    } on FirebaseAuthException catch (e) {
-      String message = 'ログインに失敗しました';
-      if (e.code == 'user-not-found') {
-        message = 'ユーザーが見つかりませんでした。';
-      } else if (e.code == 'wrong-password') {
-        message = 'パスワードが間違っています。';
-      }
-      _showDialog('ログインに失敗しました', message);
-    }
-  }
+class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //MediaQueryで使用デバイスのサイズを取得
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
+    void login(BuildContext context) async {
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        Future.delayed(Duration.zero, () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const TimerListPage(),
+            ),
+          );
+        });
+      } on FirebaseAuthException catch (e) {
+        String message = 'ログインに失敗しました';
+        if (e.code == 'user-not-found') {
+          message = 'ユーザーが見つかりませんでした。';
+        } else if (e.code == 'wrong-password') {
+          message = 'パスワードが間違っています。';
+        }
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('ログインに失敗しました'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    const Text('ログインに失敗しました'),
+                    Text(message),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Approve'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -123,14 +89,12 @@ class _LoginPageState extends State<LoginPage> {
                   horizontal: 20,
                 ),
                 child: TextField(
+                  controller: emailController,
                   decoration: const InputDecoration(
                     labelText: 'メールアドレス',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.email),
                   ),
-                  onChanged: (String value) {
-                    loginEmailAddress = value;
-                  },
                 ),
               ),
             ),
@@ -143,15 +107,13 @@ class _LoginPageState extends State<LoginPage> {
                   horizontal: 20,
                 ),
                 child: TextField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'パスワード',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.key),
                   ),
-                  onChanged: (String value) {
-                    loginEmailPassword = value;
-                  },
                 ),
               ),
             ),
@@ -160,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
               height: size.height * 0.05,
               child: ElevatedButton(
                 onPressed: () {
-                  _login(loginEmailAddress, loginEmailPassword);
+                  login(context);
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
