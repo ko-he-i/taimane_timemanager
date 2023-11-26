@@ -117,7 +117,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 child: TextField(
                   decoration: const InputDecoration(
-                    labelText: 'Email Address',
+                    labelText: 'メールアドレス',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.email),
                   ),
@@ -137,7 +137,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 child: TextField(
                   decoration: const InputDecoration(
-                    labelText: 'Password',
+                    labelText: 'パスワード',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.lock),
                   ),
