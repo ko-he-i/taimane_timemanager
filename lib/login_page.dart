@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('Approve'),
+                  child: const Text('はい'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
