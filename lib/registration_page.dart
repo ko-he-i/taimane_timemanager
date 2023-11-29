@@ -5,6 +5,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:taimane_timemanager/timer_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+//TODO
+//Stateful → Stateless
+
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
 
