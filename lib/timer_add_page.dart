@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//TODO
+//Statelessに変える
 class TimerAddPage extends StatefulWidget {
   const TimerAddPage({super.key});
 
