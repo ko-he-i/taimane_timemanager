@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taimane_timemanager/analysis_page.dart';
 // import 'package:taimane_timemanager/analysis_page.dart';
 import 'package:taimane_timemanager/timer_list.dart';
 
@@ -11,11 +12,15 @@ class _ScreensPageState extends State<ScreensPage> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    // 各画面を追加してください
     const TimerList(),
-    // const AnalysisPage(),
-    // 他の画面...
+    const MyChart(),
   ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +28,8 @@ class _ScreensPageState extends State<ScreensPage> {
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: [
+        onTap: _onItemTapped,
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'ホーム',
@@ -37,30 +38,7 @@ class _ScreensPageState extends State<ScreensPage> {
             icon: Icon(Icons.settings),
             label: '設定',
           ),
-          // 他のアイテム...
         ],
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('ホーム画面'),
-      ),
-    );
-  }
-}
-
-class SettingsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('設定画面'),
       ),
     );
   }
