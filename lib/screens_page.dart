@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taimane_timemanager/analysis_page.dart';
+// import 'package:taimane_timemanager/analysis_page.dart';
 import 'package:taimane_timemanager/timer_list.dart';
 
 class ScreensPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class _ScreensPageState extends State<ScreensPage> {
   final List<Widget> _screens = [
     // 各画面を追加してください
     const TimerList(),
-    const AnalysisPage(),
+    // const AnalysisPage(),
     // 他の画面...
   ];
 
