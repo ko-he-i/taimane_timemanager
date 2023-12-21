@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 //firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:taimane_timemanager/screens_page.dart';
 import 'package:taimane_timemanager/timer_page.dart';
 //lib
 import 'package:taimane_timemanager/timer.dart';
 import 'package:taimane_timemanager/timer_add_page.dart';
 import 'package:taimane_timemanager/other_page.dart';
 
-class TimerListPage extends StatefulWidget {
-  const TimerListPage({super.key});
+class TimerList extends StatefulWidget {
+  const TimerList({super.key});
 
   @override
-  State<TimerListPage> createState() => _TimerListPageState();
+  State<TimerList> createState() => _TimerListState();
 }
 
-class _TimerListPageState extends State<TimerListPage> {
+class _TimerListState extends State<TimerList> {
   List timer = [];
   String docId = '';
 
@@ -147,7 +148,7 @@ class _TimerListPageState extends State<TimerListPage> {
         onPressed: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const TimerAddPage()),
+            MaterialPageRoute(builder: (context) => ScreensPage()),
           );
           _fetchFirebaseData();
         },
