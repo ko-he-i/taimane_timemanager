@@ -35,8 +35,8 @@ class _ScreensPageState extends State<ScreensPage> {
             label: 'ホーム',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: '設定',
+            icon: Icon(Icons.analytics),
+            label: '分析',
           ),
         ],
       ),

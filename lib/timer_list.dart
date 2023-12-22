@@ -148,7 +148,7 @@ class _TimerListState extends State<TimerList> {
         onPressed: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ScreensPage()),
+            MaterialPageRoute(builder: (context) => const TimerAddPage()),
           );
           _fetchFirebaseData();
         },

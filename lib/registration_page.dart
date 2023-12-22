@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //lib
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:taimane_timemanager/screens_page.dart';
 //firebase
 import 'package:taimane_timemanager/timer_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +50,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   void _toTimerListPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const TimerList()),
+      MaterialPageRoute(builder: (context) => ScreensPage()),
     );
   }
 

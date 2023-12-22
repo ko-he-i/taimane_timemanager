@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taimane_timemanager/registration_page.dart';
-import 'package:taimane_timemanager/timer_list.dart';
+import 'package:taimane_timemanager/screens_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatelessWidget {
@@ -20,7 +20,7 @@ class LoginPage extends StatelessWidget {
         Future.delayed(Duration.zero, () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const TimerList(),
+              builder: (context) => ScreensPage(),
             ),
           );
         });
