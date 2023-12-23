@@ -15,17 +15,17 @@ class MyChart extends StatelessWidget {
         child: LineChart(
           LineChartData(lineBarsData: [
             LineChartBarData(spots: const [
-              FlSpot(1, 323),
-              FlSpot(2, 538),
-              FlSpot(3, 368),
-              FlSpot(4, 259),
-              FlSpot(5, 551),
-              FlSpot(6, 226),
-              FlSpot(7, 268),
-              FlSpot(8, 296),
-              FlSpot(9, 203),
-              FlSpot(10, 246),
-              FlSpot(11, 345),
+              FlSpot(1, 10),
+              FlSpot(2, 20),
+              FlSpot(3, 30),
+              FlSpot(4, 40),
+              FlSpot(5, 50),
+              FlSpot(6, 60),
+              FlSpot(7, 70),
+              FlSpot(8, 80),
+              FlSpot(9, 90),
+              FlSpot(10, 100),
+              FlSpot(0, 0),
             ])
           ]),
         ),

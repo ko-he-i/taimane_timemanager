@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:taimane_timemanager/pra_page.dart';
 import 'package:taimane_timemanager/screens_page.dart';
 import 'package:taimane_timemanager/timer_page.dart';
 //lib
@@ -148,7 +149,7 @@ class _TimerListState extends State<TimerList> {
         onPressed: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const TimerAddPage()),
+            MaterialPageRoute(builder: (context) => const LineChartSample2()),
           );
           _fetchFirebaseData();
         },
